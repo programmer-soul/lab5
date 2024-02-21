@@ -10,9 +10,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class Commands {
     //** Коллекция */
-    private final LinkedHashMap<Integer,Person> person_collection;
+    private final LinkedHashMap<Integer,Person> personСollection;
     //** Дата/время инициализации */
-    private final ZonedDateTime InitDateTime;
+    private final ZonedDateTime initDateTime;
     //** Дата/время последнего сохранения */
     private ZonedDateTime lastSaveDateTime;
     //** Дата/время последней загрузки */
@@ -36,8 +36,8 @@ public class Commands {
      * Конструктор класса
      */
     Commands(){
-        person_collection=new LinkedHashMap<>();
-        InitDateTime = ZonedDateTime.now(ZoneOffset.systemDefault());
+        personCollection=new LinkedHashMap<>();
+        initDateTime = ZonedDateTime.now(ZoneOffset.systemDefault());
     }
     /**
      * @param title подсказа для ввода
@@ -185,7 +185,7 @@ public class Commands {
      * вывести в стандартный поток вывода все элементы коллекции в строковом представлении
      */
     public void Show(){
-        Set<Map.Entry<Integer,Person>> set = person_collection.entrySet();// Получаем набор элементов
+        Set<Map.Entry<Integer,Person>> set = personCollection.entrySet();// Получаем набор элементов
         for (Map.Entry<Integer, Person> me : set) {
             Person per = me.getValue();
             per.Show(); //Отображаем элементы
@@ -196,11 +196,11 @@ public class Commands {
      */
     public void Info(){
         System.out.println("Сведения о коллекции:");
-        System.out.println("  Тип коллекции: " + person_collection.getClass().getName());
-        System.out.println("  Количество элементов: " + person_collection.size());
+        System.out.println("  Тип коллекции: " + personCollection.getClass().getName());
+        System.out.println("  Количество элементов: " + personCollection.size());
         System.out.println("  Дата/время последнего сохранения: " + lastSaveDateTime);
         System.out.println("  Дата/время последней загрузки: " + lastLoadDateTime);
-        System.out.println("  Дата/время инициализации: " + InitDateTime);
+        System.out.println("  Дата/время инициализации: " + initDateTime);
     }
     /**
      * Сохраняет коллекцию в файл persons.xml.
@@ -222,7 +222,7 @@ public class Commands {
             out.writeCharacters(System.getProperty("line.separator"));
             out.writeStartElement("Persons");
             out.writeCharacters(System.getProperty("line.separator"));
-            Set<Map.Entry<Integer, Person>> set = person_collection.entrySet();// Получаем набор элементов
+            Set<Map.Entry<Integer, Person>> set = personCollection.entrySet();// Получаем набор элементов
             for (Map.Entry<Integer, Person> me : set) {
                 Person per = me.getValue();
                 per.SaveXML(out);
@@ -367,7 +367,7 @@ public class Commands {
      * вывести сумму значения поля height для всех элементов коллекции
      */
     private void sum_of_height(){
-        Set<Map.Entry<Integer, Person>> set = person_collection.entrySet();// Получаем набор элементов
+        Set<Map.Entry<Integer, Person>> set = personCollection.entrySet();// Получаем набор элементов
         Iterator<Map.Entry<Integer, Person>> iter = set.iterator();// Получаем итератор
         long totalheight=0;
         while(iter.hasNext()) {
@@ -381,7 +381,7 @@ public class Commands {
      * вывести среднее значение поля weight для всех элементов коллекции
      */
     private void average_of_weight(){
-        Set<Map.Entry<Integer,Person>> set = person_collection.entrySet();// Получаем набор элементов
+        Set<Map.Entry<Integer,Person>> set = personCollection.entrySet();// Получаем набор элементов
         Iterator<Map.Entry<Integer,Person>> iter = set.iterator();// Получаем итератор
         long totalweight=0;
         while(iter.hasNext()) {
@@ -389,8 +389,8 @@ public class Commands {
             Person per=me.getValue();
             totalweight+=per.getWeight();
         }
-        if (!person_collection.isEmpty()) {
-            totalweight /= person_collection.size();
+        if (!personCollection.isEmpty()) {
+            totalweight /= personCollection.size();
             System.out.println("Средний вес "+totalweight);
         }
         else{
@@ -402,8 +402,8 @@ public class Commands {
      */
     private Integer getMaxID(){
         Integer id=0;
-        if (!person_collection.isEmpty()) {
-            Set<Integer> setkeys = person_collection.keySet();
+        if (!personCollection.isEmpty()) {
+            Set<Integer> setkeys = personCollection.keySet();
             Integer[] keys = setkeys.toArray(new Integer[0]);
             id = Arrays.stream(keys).max(Integer::compare).get();
         }
@@ -529,7 +529,7 @@ public class Commands {
         }
         if (!lower){
             Person per= new Person(id,name,coordinates,creationDate,height,weight,passportID,eyeColor,location);
-            person_collection.put(per.getID(),per);
+            personCollection.put(per.getID(),per);
             if (update){
                 System.out.print("Обновлена запись ");
             }else{
@@ -538,13 +538,13 @@ public class Commands {
             per.Show();
         }
         else{
-            if (!person_collection.isEmpty()) {
-                Set<Integer> setkeys = person_collection.keySet();
+            if (!personCollection.isEmpty()) {
+                Set<Integer> setkeys = personCollection.keySet();
                 Integer[] keys = setkeys.toArray(new Integer[0]);
                 for (Integer key : keys) {
                     if (key < id) {
                         Person per = new Person(key, name, coordinates, creationDate, height, weight, passportID, eyeColor, location);
-                        person_collection.put(per.getID(), per);
+                        personCollection.put(per.getID(), per);
                         System.out.print("Обновлена запись ");
                         per.Show();
 
@@ -559,18 +559,18 @@ public class Commands {
      * Очищает коллекцию
      */
     private void Clear(){
-        person_collection.clear();
+        personCollection.clear();
     }
     /**
      * Удалить из коллекции все элементы, ключ которых превышаюет заданный
      */
     private void remove_greater_key(Integer id){
-        if (!person_collection.isEmpty()) {
-            Set<Integer> setkeys = person_collection.keySet();
+        if (!personCollection.isEmpty()) {
+            Set<Integer> setkeys = personCollection.keySet();
             Integer[] keys = setkeys.toArray(new Integer[0]);
             for (Integer key : keys) {
                 if (key > id) {
-                    person_collection.remove(key);
+                    personCollection.remove(key);
                 }
             }
         }
@@ -698,7 +698,7 @@ public class Commands {
             case "max_by_id":
                 Integer maxID=getMaxID();
                 if (maxID>0){
-                    Person per=person_collection.get(maxID);
+                    Person per=personCollection.get(maxID);
                     per.Show();
                 }
                 break;
@@ -730,7 +730,7 @@ public class Commands {
                         break;
                     case "remove_key":
                         if (Person.validate_ID(pars)){
-                            person_collection.remove(Integer.parseInt(pars));
+                            personCollection.remove(Integer.parseInt(pars));
                         }
                         else{
                             System.out.println("Ошибка ID");

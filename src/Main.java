@@ -1,6 +1,6 @@
 import java.util.*;
 /**
- * Программа PersonLab
+ * Программа Lab5
  * @author Matvei Baranov
  * @version 1.0
  */
